@@ -22,14 +22,14 @@ installBtn.addEventListener('click', (e) => {
 });
 
 // Service Worker registration
-// if ('serviceWorker' in navigator) {
-//     navigator.serviceWorker.register('service-worker.js')
-//         .then(function(registration) {
-//             console.log('Service Worker registered with scope:', registration.scope);
-//             if (registration.installing) {
-//                // window.location.href = "YOUR_DESIRED_URL";
-//             }
-//         }).catch(function(error) {
-//             console.log('Service Worker registration failed:', error);
-//         });
-// }
+ if ('serviceWorker' in navigator) {
+     navigator.serviceWorker.register('service-worker.js')
+         .then(function(registration) {
+             console.log('Service Worker registered with scope:', registration.scope);
+             if (registration.installing) {
+                // window.location.href = "YOUR_DESIRED_URL";
+             }
+         }).catch(function(error) {
+             console.log('Service Worker registration failed:', error);
+         });
+ }
