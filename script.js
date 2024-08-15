@@ -9,7 +9,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 
 installBtn.addEventListener('click', (e) => {
-    installBtn.style.display = 'none';
+   // installBtn.style.display = 'none';
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
