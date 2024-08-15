@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My PWA</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        var OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+                appId: "YOUR_ONESIGNAL_APP_ID",
+                promptOptions: {
+                    actionMessage: "We'd like to show you notifications for the latest news and updates.",
+                    acceptButtonText: "ALLOW",
+                    cancelButtonText: "NO THANKS"
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Welcome to My PWA</h1>
+    <button id="installBtn">Add to Home Screen</button>
+    <script src="script.js"></script>
+</body>
+</html>
