@@ -1,7 +1,7 @@
 {
     "name": "My PWA",
     "short_name": "PWA",
-    "start_url": "https://nestt.wuaze.com/",
+    "start_url": "/pwi",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#000000",
