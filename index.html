@@ -7,22 +7,74 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
+     <script>
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                let date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        function getCookie(name) {
+            let nameEQ = name + "=";
+            let ca = document.cookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        function generateUniqueId() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                let r = Math.random() * 16 | 0,
+                    v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function getUserUniqueId() {
+            let userId = getCookie("userId");
+            if (!userId) {
+                userId = generateUniqueId();
+                setCookie("userId", userId, 365);
+            }
+            return userId;
+        }
+
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(async function(OneSignal) {
-          await OneSignal.init({
-            appId: "7d66e72a-2faa-4ff5-b9c9-550bdd97f834",
-            safari_web_id: "web.onesignal.auto.017d7a1b-f1ef-4fce-a00c-21a546b5491d",
-            promptOptions: {
-                    actionMessage: "We'd like to show you notifications for the latest news and updates.",
-                    acceptButtonText: "ALLOW",
-                    cancelButtonText: "NO THANKS"
-                },
-                serviceWorkerParam: { scope: "/pwi/" },
-            serviceWorkerPath: "pwi/OneSignalSDKWorker.js",
-          });
+            await OneSignal.init({
+                appId: "14efc445-7d48-48e1-93d5-f3b515d4f9db"
+            });
+
+            const userId = getUserUniqueId();
+            OneSignal.login(userId);
+            OneSignal.User.addTag("status", "install");
+
+            function showPushDialog() {
+                OneSignal.Notifications.requestPermission();
+            }
+
+            window.addEventListener('iInstalled', () => showPushDialog())
+
+            function permissionChangeListener(permission) {
+                if (permission) {
+                    jQuery.get("/analytic", {
+                        t: 'subscribe'
+                    }, function(data) {});
+                }
+            }
+
+            OneSignal.Notifications.addEventListener("permissionChange", permissionChangeListener);
         });
-      </script>
+
+        function NewOpenW() {}
+    </script>
 </head>
 <body>
     <h1>Welcome to My PWA</h1>
